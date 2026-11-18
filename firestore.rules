@@ -1,0 +1,38 @@
+rules_version = '2';
+// Replace SHARED_ACCOUNT_EMAIL with the shared account's e-mail in lowercase
+// (the same value as SHARED_ACCOUNT_EMAIL in js/config.js), then publish in
+// Firebase console → Firestore Database → Rules.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isClass() {
+      return request.auth != null
+        && request.auth.token.email == 'SHARED_ACCOUNT_EMAIL';
+    }
+
+    match /people/{personId} {
+      allow read: if isClass();
+      allow create, update: if isClass()
+        && request.resource.data.keys().hasOnly(['name', 'maiden', 'gender', 'votes', 'createdAt', 'updatedAt'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() >= 2
+        && request.resource.data.name.size() <= 80
+        && request.resource.data.maiden is string
+        && request.resource.data.maiden.size() <= 60
+        && request.resource.data.gender in ['f', 'm']
+        && request.resource.data.votes is map
+        && request.resource.data.votes.size() <= 92;
+      allow delete: if false;
+    }
+
+    match /log/{entryId} {
+      allow read: if isClass();
+      allow create: if isClass()
+        && request.resource.data.keys().hasOnly(['personId', 'name', 'gender', 'text', 'chips', 'at'])
+        && request.resource.data.text is string
+        && request.resource.data.text.size() <= 200
+        && request.resource.data.at == request.time;
+      allow update, delete: if false;
+    }
+  }
+}

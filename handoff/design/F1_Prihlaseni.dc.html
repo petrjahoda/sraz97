@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<title>Sraz po 30 rokách · přihlášení</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#1E3A8A}a:hover{color:#B02E24}
+</style>
+</helmet>
+<div style="position: relative; min-height: 100vh; box-sizing: border-box; background-color: #FBFCFE; background-image: linear-gradient(#E3EBF5 1px, transparent 1px), linear-gradient(90deg, #E3EBF5 1px, transparent 1px); background-size: 24px 24px; color: #22304D; font-family: Kalam, 'Segoe Print', 'Comic Sans MS', cursive; font-size: 17px; line-height: 1.45; overflow: hidden; display: flex; align-items: center; justify-content: center; padding: 56px 24px 56px 72px">
+  <div aria-hidden="true" style="position: absolute; left: 40px; top: 0; bottom: 0; width: 2px; background: #EFA8A8"></div>
+  <main style="position: relative; width: 100%; max-width: 1040px; display: flex; flex-wrap: wrap; gap: 48px 64px; align-items: center">
+    <div style="flex: 1 1 400px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+      <h1 style="margin: 0; font-family: Caveat, cursive; font-weight: 700; font-size: 80px; line-height: 0.95; color: #1E3A8A">Sraz po 30 rokách!</h1>
+      <svg viewBox="0 0 420 14" width="380" height="14" aria-hidden="true" style="max-width: 100%"><path d="M2 9 C 60 3, 120 12, 180 7 S 300 3, 418 8" style="fill: none; stroke: #C2352B; stroke-width: 2.5; stroke-linecap: round"></path></svg>
+      <p style="margin: 0; font-size: 21px; color: #3B4A6B">Maturita ’97 · léto 2027. Pomož nám najít den, kdy se sejdem všeci.</p>
+      <svg viewBox="0 0 400 110" aria-hidden="true" style="width: 100%; max-width: 440px; height: auto; margin-top: 8px">
+        <path d="M4 96 C 40 92, 60 70, 90 78 S 140 96, 170 70 S 220 14, 250 22 S 290 80, 320 70 S 370 56, 396 84" style="fill: none; stroke: #1E3A8A; stroke-width: 3; stroke-linecap: round"></path>
+        <circle cx="250" cy="22" r="7" style="fill: #FFFFFF; stroke: #C2352B; stroke-width: 3"></circle>
+        <path d="M282 10 C 272 6, 266 10, 262 16" style="fill: none; stroke: #C2352B; stroke-width: 2.2; stroke-linecap: round"></path>
+        <text x="286" y="16" style="font-family: Caveat, cursive; font-weight: 700; font-size: 24px; fill: #B02E24">tady se sejdem!</text>
+      </svg>
+      <ol style="margin: 4px 0 0; padding-left: 26px; font-size: 18px; color: #22304D">
+        <li>přihlásíš se mailem a heslem z pozvánky,</li>
+        <li>napíšeš, kdo seš,</li>
+        <li>naklikáš, které dny ti sednou. Hotovo.</li>
+      </ol>
+    </div>
+
+    <form style="flex: 1 1 380px; min-width: 0; box-sizing: border-box; background: #FFFEF7; border: 1px solid #D5DEEA; box-shadow: 0 14px 30px rgba(34, 48, 77, 0.12); padding: 30px 32px 28px; transform: rotate(-0.6deg); display: flex; flex-direction: column; gap: 16px">
+      <h2 style="margin: 0; font-family: Caveat, cursive; font-weight: 700; font-size: 46px; line-height: 1; color: #1E3A8A">Pusť mě dovnitř</h2>
+      <div style="display: flex; flex-direction: column; gap: 4px">
+        <label for="email" style="font-size: 16px; font-weight: 700">Tvůj e-mail</label>
+        <input id="email" type="email" autocomplete="email" placeholder="tvuj@email.cz" style="min-height: 50px; box-sizing: border-box; padding: 0 14px; border: 2px solid #C6D1E0; border-radius: 12px; background: #FFFFFF; color: #22304D; font-family: Kalam, cursive; font-size: 18px">
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 4px">
+        <label for="heslo" style="font-size: 16px; font-weight: 700">Heslo z pozvánky</label>
+        <input id="heslo" type="password" autocomplete="current-password" placeholder="••••••••" style="min-height: 50px; box-sizing: border-box; padding: 0 14px; border: 2px solid #C6D1E0; border-radius: 12px; background: #FFFFFF; color: #22304D; font-family: Kalam, cursive; font-size: 18px">
+        <span style="font-size: 14px; color: #4A5878">Heslo je pro všecky stejné, najdeš ho v pozvánce.</span>
+      </div>
+      <a href="F2_Jmeno.dc.html" style="display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 54px; margin-top: 4px; border-radius: 16px 12px 18px 12px; background: #1E3A8A; color: #FFFFFF; font-family: Kalam, cursive; font-size: 19px; font-weight: 700; text-decoration: none">Jdu dovnitř<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" style="fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round"></path></svg></a>
+      <span style="font-size: 14px; color: #4A5878; padding-top: 4px; border-top: 1px dashed #D5DEEA">Nemáš pozvánku nebo nejde heslo? Napiš na [E-MAIL ORGANIZÁTORA].</span>
+    </form>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

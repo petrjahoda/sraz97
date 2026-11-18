@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<title>Sraz po 30 rokách · hlavní stránka</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#1E3A8A}a:hover{color:#B02E24}
+</style>
+</helmet>
+<div onPointerUp="{{endPaint}}" style="position: relative; min-height: 100vh; background-color: #FBFCFE; background-image: linear-gradient(#E3EBF5 1px, transparent 1px), linear-gradient(90deg, #E3EBF5 1px, transparent 1px); background-size: 24px 24px; color: #22304D; font-family: Kalam, 'Segoe Print', 'Comic Sans MS', cursive; font-size: 16px; line-height: 1.45; overflow: hidden">
+  <div aria-hidden="true" style="position: absolute; left: 56px; top: 0; bottom: 0; width: 2px; background: #EFA8A8"></div>
+  <div style="position: relative; padding: 36px 32px 56px 88px; display: flex; flex-direction: column; gap: 32px">
+    <header style="display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap">
+      <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+        <h1 style="margin: 0; font-family: Caveat, cursive; font-weight: 700; font-size: 64px; line-height: 1; color: #1E3A8A">Sraz po 30 rokách!</h1>
+        <svg viewBox="0 0 420 14" width="380" height="14" aria-hidden="true" style="max-width: 100%"><path d="M2 9 C 60 3, 120 12, 180 7 S 300 3, 418 8" style="fill: none; stroke: #C2352B; stroke-width: 2.5; stroke-linecap: round"></path></svg>
+        <p style="margin: 6px 0 0; font-size: 18px; color: #3B4A6B">Maturita ’97 · děcka, hledáme den, kdy se sejdem všeci. Už se ozvalo {{voters}} z nás.</p>
+      </div>
+      <div style="display: flex; align-items: flex-start; gap: 20px; flex-wrap: wrap">
+        <button onClick="{{toggleHelp}}" aria-pressed="{{help}}" style="display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px 0 8px; margin-top: 10px; border-radius: 999px; border: 2px dashed #B02E24; background: #FFFFFF; color: #B02E24; font-family: Kalam, cursive; font-size: 15px; font-weight: 700; cursor: pointer"><span style="width: 26px; height: 26px; border-radius: 999px; background: #B02E24; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 16px">?</span>{{helpLabel}}</button>
+        <div style="background: #FFF2A6; padding: 12px 20px 14px; transform: rotate(2deg); box-shadow: 0 8px 16px rgba(34, 48, 77, 0.14); display: flex; flex-direction: column; gap: 2px; min-width: 170px">
+          <span style="font-size: 13px; color: #5B4A00">čau,</span>
+          <span style="font-family: Caveat, cursive; font-weight: 700; font-size: 38px; line-height: 1; color: #1E3A8A">Martino!</span>
+          <span style="display: flex; gap: 12px"><a href="F2_Jmeno.dc.html" style="font-size: 14px">změnit jméno</a><a href="F1_Prihlaseni.dc.html" style="font-size: 14px">odhlásit</a></span>
+        </div>
+      </div>
+    </header>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 22px">
+      <sc-if value="{{help}}" hint-placeholder-val="{{true}}">
+        <div style="flex: 0 0 200px; box-sizing: border-box; padding: 0 18px 0 0; border-right: 2px solid #EFA8A8; display: flex; flex-direction: column; gap: 8px; align-items: flex-start">
+          <div style="display: flex; align-items: center; justify-content: space-between; align-self: stretch; gap: 8px">
+            <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #B02E24">Jak na to</span>
+            <button onClick="{{toggleHelp}}" aria-label="Schovat nápovědu" style="display: flex; align-items: center; gap: 4px; min-height: 32px; padding: 0 8px; border-radius: 999px; border: 1.5px solid #E7B4AE; background: #FFFFFF; color: #B02E24; font-family: Kalam, cursive; font-size: 13px; font-weight: 700; cursor: pointer">schovat<svg viewBox="0 0 16 16" width="10" height="10" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" style="fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round"></path></svg></button>
+          </div>
+          <span style="font-family: Caveat, cursive; font-weight: 700; font-size: 26px; line-height: 1.05; color: #B02E24">1. Tady uvidíš, kdy to zatím vychází nejlíp.</span>
+          <span style="font-size: 14px; line-height: 1.35; color: #8A2A20">Čím výš vlna, tím víc nás dorazí. Vpravo sú tři nejlepší dny, klikni a ukážou se ti v kalendáři.</span>
+          <svg viewBox="0 0 90 30" width="90" height="30" aria-hidden="true"><path d="M4 22 C 30 4, 58 4, 84 16" style="fill: none; stroke: #C2352B; stroke-width: 2.5; stroke-linecap: round"></path><path d="M73 8 L85 16 L72 22" style="fill: none; stroke: #C2352B; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round"></path></svg>
+        </div>
+      </sc-if>
+      <div style="flex: 999 1 640px; min-width: 0">
+    <section style="background: #FFFFFF; border: 1px solid #D5DEEA; box-shadow: 0 10px 24px rgba(34, 48, 77, 0.08); padding: 22px 26px 18px; display: flex; flex-wrap: wrap; gap: 24px 36px; align-items: stretch">
+      <div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap">
+          <h2 style="margin: 0; font-family: Caveat, cursive; font-weight: 700; font-size: 42px; line-height: 1; color: #1E3A8A">Kdy to vychází nejlíp</h2>
+          <span style="font-size: 15px; color: #4A5878">čím výš vlna, tím víc nás dorazí</span>
+        </div>
+        <div style="position: relative; height: 150px">
+          <svg viewBox="0 0 92 100" preserveAspectRatio="none" aria-hidden="true" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: visible">
+            <path d="{{waveArea}}" style="fill: #1E3A8A; fill-opacity: 0.08; stroke: none"></path>
+            <path d="{{wave}}" style="fill: none; stroke: #1E3A8A; stroke-width: 3px; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke"></path>
+          </svg>
+          <span aria-hidden="true" style="position: absolute; top: 0; bottom: 0; left: {{tip.x}}; border-left: 2px dashed rgba(194, 53, 43, 0.55)"></span>
+          <sc-for list="{{best}}" as="b" hint-placeholder-count="3">
+            <span aria-hidden="true" style="position: absolute; left: {{b.left}}; top: {{b.top}}; transform: translate(-50%, -50%); width: 12px; height: 12px; box-sizing: border-box; border-radius: 999px; background: #FFFFFF; border: 3px solid #C2352B"></span>
+          </sc-for>
+        </div>
+        <div style="display: flex; border-top: 2px solid #1E3A8A">
+          <sc-for list="{{hist}}" as="m" hint-placeholder-count="3">
+            <div style="flex: {{m.flex}}; min-width: 0; border-left: 2px solid #1E3A8A; padding: 0 0 0 10px; font-family: Caveat, cursive; font-weight: 700; font-size: 24px; line-height: 1.3; color: #1E3A8A">{{m.name}}</div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+        <span style="font-size: 15px; font-weight: 700; color: #22304D">Zatím nejlíp vychází:</span>
+        <sc-for list="{{best}}" as="b" hint-placeholder-count="3">
+          <button onClick="{{b.pick}}" style="display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 10px; align-items: center; padding: 8px 14px; background: {{b.cardBg}}; border: 2px solid #1E3A8A; border-radius: 16px 12px 18px 10px; text-align: left; font: inherit; color: #22304D; cursor: pointer">
+            <span style="font-family: Caveat, cursive; font-weight: 700; font-size: 38px; line-height: 1; color: #B02E24">{{b.rank}}.</span>
+            <span style="display: flex; flex-direction: column; gap: 0">
+              <span style="font-weight: 700; font-size: 17px">{{b.full}}</span>
+              <span style="font-size: 14px; color: #3B4A6B">hodí se: <strong style="color: #17703C">{{b.love}}</strong> · šlo by: <strong style="color: #7A4A00">{{b.ok}}</strong> · nemůže: <strong style="color: #9B2C1C">{{b.no}}</strong></span>
+            </span>
+          </button>
+        </sc-for>
+      </div>
+    </section>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start">
+      <div style="flex: 999 1 640px; min-width: 0; display: flex; flex-direction: column; gap: 44px">
+
+        <section style="display: flex; flex-direction: column; gap: 20px">
+          <div style="display: flex; flex-wrap: wrap; gap: 22px">
+            <sc-if value="{{help}}" hint-placeholder-val="{{true}}">
+              <div style="flex: 0 0 200px; box-sizing: border-box; padding: 4px 18px 0 0; border-right: 2px solid #EFA8A8; display: flex; flex-direction: column; gap: 16px; align-items: flex-start">
+                <div style="display: flex; flex-direction: column; gap: 4px; align-items: flex-start">
+                  <span style="font-family: Caveat, cursive; font-weight: 700; font-size: 26px; line-height: 1.05; color: #B02E24">2. Nejdřív si vem pero.</span>
+                  <span style="font-size: 14px; line-height: 1.35; color: #8A2A20">Zelené kolečko = hodí se, oranžové čárkované = šlo by to, přeškrtnuté = nemůžu.</span>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 4px; align-items: flex-start">
+                  <span style="font-family: Caveat, cursive; font-weight: 700; font-size: 26px; line-height: 1.05; color: #B02E24">3. Pak klikej na dny, nebo táhni.</span>
+                  <span style="font-size: 14px; line-height: 1.35; color: #8A2A20">Podrž myš a přejeď přes víc dní, označí se všecky naráz. Když klikneš podruhé, zas to zmizí.</span>
+                  <svg viewBox="0 0 40 46" width="40" height="46" aria-hidden="true"><path d="M8 4 C 30 10, 30 26, 20 40" style="fill: none; stroke: #C2352B; stroke-width: 2.5; stroke-linecap: round"></path><path d="M12 32 L20 41 L27 32" style="fill: none; stroke: #C2352B; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round"></path></svg>
+                </div>
+              </div>
+            </sc-if>
+            <div style="flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap">
+                <h2 style="margin: 0; font-family: Caveat, cursive; font-weight: 700; font-size: 42px; line-height: 1; color: #1E3A8A">A kdy můžeš ty?</h2>
+                <span style="font-size: 15px; color: #3B4A6B">Máš naklikáno: <strong>{{myText}}</strong> · ukládá se to samo, neboj</span>
+              </div>
+              <div role="group" aria-label="Vyber pero" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center">
+                <span style="font-size: 16px; font-weight: 700; color: #22304D; padding-right: 4px">Vem si pero:</span>
+                <sc-for list="{{brushes}}" as="b" hint-placeholder-count="4">
+                  <button onClick="{{b.pick}}" aria-pressed="{{b.on}}" style="display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px 0 8px; border-radius: 22px 18px 24px 16px; border: 2px solid {{b.bd}}; background: {{b.bg}}; color: {{b.fg}}; font-family: Kalam, cursive; font-size: 16px; font-weight: 700; cursor: pointer"><span style="width: 28px; height: 28px; box-sizing: border-box; border-radius: 999px; border: 2px {{b.sBs}} {{b.sBd}}; background: {{b.sBg}}; color: {{b.sFg}}; text-decoration: {{b.sTd}}; display: flex; align-items: center; justify-content: center; font-size: 12px">19</span>{{b.label}}</button>
+                </sc-for>
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 10px 14px; background: rgba(255, 242, 166, 0.6); border: 1px dashed #C9B24A; border-radius: 12px">
+                <svg viewBox="0 0 52 22" width="52" height="22" aria-hidden="true" style="flex: none"><circle cx="9" cy="11" r="7" style="fill: none; stroke: #1F7A45; stroke-width: 2.2"></circle><circle cx="26" cy="11" r="7" style="fill: none; stroke: #1F7A45; stroke-width: 2.2"></circle><circle cx="43" cy="11" r="7" style="fill: none; stroke: #1F7A45; stroke-width: 2.2"></circle><path d="M9 11 H43" style="fill: none; stroke: #1E3A8A; stroke-width: 2; stroke-dasharray: 3 3"></path></svg>
+                <span style="font-size: 15px; flex: 1 1 280px"><strong>Víc dní naráz?</strong> Podrž myš a táhni přes dny. Na mobilu přejeď prstem do strany.</span>
+                <sc-if value="{{painting}}" hint-placeholder-val="{{false}}"><span style="font-size: 16px; font-weight: 700; color: #B02E24">{{paintText}}</span></sc-if>
+              </div>
+              <div style="display: flex; gap: 6px 10px; flex-wrap: wrap; align-items: center; font-size: 15px; color: #3B4A6B">
+                <span>Nebo to vyplň naráz:</span>
+                <sc-for list="{{quickAll}}" as="q" hint-placeholder-count="4">
+                  <button onClick="{{q.pick}}" style="min-height: 36px; padding: 0 4px; border: 0; border-bottom: 2px dashed #1E3A8A; background: transparent; color: #1E3A8A; font-family: Kalam, cursive; font-size: 15px; font-weight: 700; cursor: pointer">{{q.label}}</button>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+          <div onPointerLeave="{{endPaint}}" onPointerCancel="{{endPaint}}" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 28px; user-select: none; touch-action: pan-y">
+            <sc-for list="{{months}}" as="m" hint-placeholder-count="3">
+              <div style="display: flex; flex-direction: column; gap: 6px">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px">
+                  <h3 style="margin: 0; font-family: Caveat, cursive; font-weight: 700; font-size: 34px; line-height: 1.1; color: #1E3A8A">{{m.name}}</h3>
+                  <span style="font-size: 13px; color: #4A5878">máš: {{m.markedText}}</span>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px; justify-items: center">
+                  <sc-for list="{{dows}}" as="w" hint-placeholder-count="7">
+                    <span style="font-size: 13px; color: #4A5878">{{w.d}}</span>
+                  </sc-for>
+                  <sc-for list="{{m.cells}}" as="c" hint-placeholder-count="35">
+                    <sc-if value="{{c.blank}}" hint-placeholder-val="{{false}}"><span aria-hidden="true"></span></sc-if>
+                    <sc-if value="{{c.real}}" hint-placeholder-val="{{true}}">
+                      <button onClick="{{c.tap}}" onPointerDown="{{c.down}}" onPointerEnter="{{c.over}}" aria-label="{{c.aria}}" style="position: relative; width: 40px; height: 40px; padding: 0; box-sizing: border-box; border: 2px {{c.bs}} {{c.bd}}; border-radius: 999px; background: {{c.bg}}; color: {{c.fg}}; text-decoration: {{c.td}}; text-decoration-thickness: 2px; outline: 2px dotted {{c.ring}}; outline-offset: 2px; font-family: Kalam, cursive; font-size: 17px; font-weight: {{c.fw}}; cursor: pointer; touch-action: pan-y">{{c.dom}}<sc-if value="{{c.best}}" hint-placeholder-val="{{false}}"><span aria-hidden="true" style="position: absolute; right: -6px; top: -8px; font-family: Caveat, cursive; font-weight: 700; font-size: 16px; line-height: 1; color: #B02E24">{{c.rank}}.</span></sc-if></button>
+                    </sc-if>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+
+        <section style="display: flex; flex-direction: column; gap: 14px">
+          <div style="display: flex; flex-wrap: wrap; gap: 22px">
+            <sc-if value="{{help}}" hint-placeholder-val="{{true}}">
+              <div style="flex: 0 0 200px; box-sizing: border-box; padding: 4px 18px 0 0; border-right: 2px solid #EFA8A8; display: flex; flex-direction: column; gap: 4px; align-items: flex-start">
+                <span style="font-family: Caveat, cursive; font-weight: 700; font-size: 26px; line-height: 1.05; color: #B02E24">4. Kdo přesně kdy může?</span>
+                <span style="font-size: 14px; line-height: 1.35; color: #8A2A20">Najeď myší na sloupeček a vyskočí jména.</span>
+                <svg viewBox="0 0 40 46" width="40" height="46" aria-hidden="true"><path d="M8 4 C 30 10, 30 26, 20 40" style="fill: none; stroke: #C2352B; stroke-width: 2.5; stroke-linecap: round"></path><path d="M12 32 L20 41 L27 32" style="fill: none; stroke: #C2352B; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round"></path></svg>
+              </div>
+            </sc-if>
+            <div style="flex: 999 1 520px; min-width: 0; display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap">
+              <div style="display: flex; flex-direction: column; gap: 4px">
+                <h2 style="margin: 0; font-family: Caveat, cursive; font-weight: 700; font-size: 42px; line-height: 1; color: #1E3A8A">Kdo může kdy</h2>
+                <p style="margin: 0; font-size: 15px; color: #3B4A6B">Najeď myší na sloupeček a uvidíš, kdo to je.</p>
+              </div>
+              <div style="display: flex; gap: 16px; flex-wrap: wrap; font-size: 15px; color: #3B4A6B">
+                <span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 14px; border-radius: 3px; background: #1F7A45"></span>hodí se</span>
+                <span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 14px; border-radius: 3px; background: #F0B23E"></span>šlo by to</span>
+                <span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 14px; border-radius: 3px; background: #E06650"></span>nemůžou</span>
+              </div>
+            </div>
+          </div>
+          <div style="overflow-x: auto">
+            <div style="min-width: 600px; display: flex; flex-direction: column">
+              <div style="position: relative; height: 200px; display: flex">
+                <sc-for list="{{hist}}" as="m" hint-placeholder-count="3">
+                  <div style="flex: {{m.flex}}; min-width: 0; display: flex; align-items: stretch">
+                    <sc-for list="{{m.bars}}" as="b" hint-placeholder-count="30">
+                      <div onMouseEnter="{{b.hov}}" style="flex: 1 1 0px; min-width: 0; padding: 0 1.5px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: flex-end; background: {{b.colBg}}">
+                        <span style="display: block; height: {{b.nh}}px; background: #E06650; border-radius: 3px 3px 0 0; opacity: 0.92"></span>
+                        <span style="display: block; height: {{b.oh}}px; background: #F0B23E; opacity: 0.92"></span>
+                        <span style="display: block; height: {{b.lh}}px; background: #1F7A45; opacity: 0.92"></span>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-for>
+                <div style="position: absolute; top: 0; left: {{tip.x}}; transform: translateX({{tip.tx}}) rotate(-1.2deg); width: 340px; background: #FFF2A6; box-shadow: 0 10px 20px rgba(34, 48, 77, 0.18); padding: 12px 16px 14px; box-sizing: border-box; display: flex; flex-direction: column; gap: 6px; pointer-events: none; z-index: 2">
+                  <span style="font-family: Caveat, cursive; font-weight: 700; font-size: 28px; line-height: 1; color: #1E3A8A">{{tip.label}}</span>
+                  <sc-for list="{{tip.groups}}" as="g" hint-placeholder-count="3">
+                    <div style="display: flex; gap: 8px; align-items: flex-start">
+                      <span style="flex: none; margin-top: 6px; width: 10px; height: 10px; border-radius: 999px; background: {{g.color}}; box-shadow: 0 0 0 1px rgba(46, 42, 18, 0.35)"></span>
+                      <span style="font-size: 14px; line-height: 1.35; color: #2E2A12"><strong style="font-weight: 700">{{g.title}} ({{g.n}}):</strong> {{g.names}}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="display: flex; border-top: 2px solid #1E3A8A">
+                <sc-for list="{{hist}}" as="m" hint-placeholder-count="3">
+                  <div style="flex: {{m.flex}}; min-width: 0; border-left: 2px solid #1E3A8A; padding: 2px 0 0 10px; font-family: Caveat, cursive; font-weight: 700; font-size: 26px; line-height: 1.2; color: #1E3A8A">{{m.name}}</div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+        <sc-if value="{{help}}" hint-placeholder-val="{{true}}">
+          <span style="font-family: Caveat, cursive; font-weight: 700; font-size: 26px; line-height: 1.05; color: #B02E24">5. Třídní kniha: kdo co kdy pozměnil. ↓</span>
+        </sc-if>
+      <aside style="flex: 1 1 300px; min-width: 0; background: #FFFEF7; border: 1px solid #D5DEEA; box-shadow: 0 10px 24px rgba(34, 48, 77, 0.10); padding: 22px 24px 12px; display: flex; flex-direction: column; transform: rotate(0.5deg)">
+        <h2 style="margin: 0; font-family: Caveat, cursive; font-weight: 700; font-size: 42px; line-height: 1; color: #1E3A8A">Třídní kniha</h2>
+        <span style="font-size: 14px; color: #4A5878; padding-bottom: 6px">kdo co udělal, nejčerstvější nahoře</span>
+        <sc-for list="{{history}}" as="h" hint-placeholder-count="8">
+          <div style="display: flex; flex-direction: column; gap: 4px; padding: 12px 0; border-top: 1px solid #DCE5F0">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px">
+              <span style="font-family: Caveat, cursive; font-weight: 700; font-size: 28px; line-height: 1; color: #1E3A8A">{{h.who}}</span>
+              <span style="font-size: 13px; color: #4A5878; white-space: nowrap">{{h.when}}</span>
+            </div>
+            <span style="font-size: 15px; line-height: 1.35">{{h.text}}</span>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap">
+              <sc-for list="{{h.chips}}" as="c" hint-placeholder-count="2">
+                <span style="font-size: 13px; font-weight: 700; padding: 0 9px; border-radius: 999px; border: 2px solid {{c.bg}}; color: {{c.fg}}">{{c.label}}</span>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </aside>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1720}}'>
+class Component extends DCLogic {
+  cfg() {
+    return this.baseCfg();
+  }
+  baseCfg() {
+    return {
+      U: 5, love: '#1F7A45', ok: '#F0B23E', no: '#E06650',
+      cell: {
+        none: { bg: 'transparent', fg: '#22304D', bd: 'transparent' },
+        love: { bg: 'transparent', fg: '#17703C', bd: '#1F7A45' },
+        ok: { bg: 'transparent', fg: '#7A4A00', bd: '#E39A1E', bs: 'dashed' },
+        no: { bg: '#FBE1DC', fg: '#9B2C1C', bd: 'transparent', td: 'line-through' }
+      },
+      chip: { love: { bg: '#1F7A45', fg: '#17703C' }, ok: { bg: '#E39A1E', fg: '#7A4A00' }, no: { bg: '#D45A48', fg: '#9B2C1C' } },
+      tab: { on: { bg: '#1E3A8A', fg: '#FFFFFF', bd: '#1E3A8A' }, off: { bg: '#FFFFFF', fg: '#1E3A8A', bd: '#C6D1E0' } },
+      avatars: [['#FFF2A6', '#1E3A8A']],
+      brushOn: { love: { bg: '#E4F3E9', fg: '#17703C', bd: '#1F7A45' }, ok: { bg: '#FDF0D5', fg: '#7A4A00', bd: '#E39A1E' }, no: { bg: '#FBE1DC', fg: '#9B2C1C', bd: '#D45A48' }, none: { bg: '#E8EDF5', fg: '#22304D', bd: '#22304D' } },
+      brushOff: { bg: '#FFFFFF', fg: '#3B4A6B', bd: '#C6D1E0' },
+      best1Bg: '#FFF2A6', bestBg: '#FFFFFF',
+      hoverBg: 'rgba(30, 58, 138, 0.10)', ring: '#1E3A8A', anchorRing: '#C2352B', logMax: 8
+/*@@CFGEXTRA@@*/
+    };
+  }
+  data() {
+    if (this._d) return this._d;
+    var names = ['Jana', 'Petr', 'Tomáš', 'Lucie', 'Jakub', 'Eva', 'Pavel', 'Klára', 'Michal', 'Veronika', 'Ondřej', 'Zuzana', 'Marek', 'Hana', 'Lukáš', 'Barbora', 'David', 'Tereza', 'Radek', 'Kateřina', 'Jiří', 'Monika'];
+    var MONL = ['Květen', 'Červen', 'Červenec'];
+    var MONG = ['května', 'června', 'července'];
+    var MONLOC = ['v květnu', 'v červnu', 'v červenci'];
+    var MONACC = ['celý květen', 'celý červen', 'celý červenec'];
+    var DOW = ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pá', 'So'];
+    var DOWL = ['neděle', 'pondělí', 'úterý', 'středa', 'čtvrtek', 'pátek', 'sobota'];
+    function cap(t) { return t.charAt(0).toUpperCase() + t.slice(1); }
+    var days = [];
+    var t0 = Date.UTC(2027, 4, 1);
+    for (var i = 0; i < 92; i++) {
+      var dt = new Date(t0 + i * 86400000);
+      var m = dt.getUTCMonth() - 4, dw = dt.getUTCDay(), dm = dt.getUTCDate();
+      days.push({ i: i, m: m, mon: m + 5, dom: dm, dow: dw, wk: dw === 0 || dw === 6, label: DOW[dw] + ' ' + dm + '. ' + (m + 5) + '.', full: cap(DOWL[dw]) + ' ' + dm + '. ' + MONG[m], dname: DOWL[dw] });
+    }
+    function rnd(a, b) {
+      var t = (a * 7919 + b * 104729 + 0x6D2B79F5) >>> 0;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    }
+    function g(x, c, s) { return Math.exp(-((x - c) * (x - c)) / (2 * s * s)); }
+    var votes = names.map(function (nm, p) {
+      var f = 0.8 + 0.4 * rnd(p, 999);
+      return days.map(function (d) {
+        var x = d.i + 61;
+        var s = x < 92 ? 0.55 : x < 122 ? 0.75 : x < 137 ? 0.7 : 0.35;
+        var w = d.dow === 6 ? 1 : d.dow === 5 ? 0.75 : d.dow === 0 ? 0.6 : 0.15;
+        var pk = 0.6 * g(x, 110, 2.2) + 0.18 * g(x, 131, 2) + 0.1 * g(x, 103, 2);
+        var pl = (0.05 + 0.7 * s * w + pk * w) * f;
+        var po = 0.08 + 0.12 * s;
+        var pn = (d.wk ? 0.06 : 0.1) + 0.15 * (1 - s) + (x >= 137 ? 0.2 : 0);
+        var tot = pl + po + pn;
+        if (tot > 0.95) { pl *= 0.95 / tot; po *= 0.95 / tot; pn *= 0.95 / tot; }
+        var r = rnd(p, x);
+        return r < pl ? 1 : r < pl + po ? 2 : r < pl + po + pn ? 3 : 0;
+      });
+    });
+    this._d = { names: names, MONL: MONL, MONG: MONG, MONLOC: MONLOC, MONACC: MONACC, DOW: DOW, days: days, votes: votes, cap: cap };
+    return this._d;
+  }
+
+  initMe() {
+    return { 7: 'no', 8: 'no', 42: 'ok', 48: 'love', 49: 'love', 55: 'no', 56: 'no', 70: 'love' };
+  }
+
+  dni(n) { return n === 1 ? 'den' : (n >= 2 && n <= 4) ? 'dny' : 'dní'; }
+
+  brushNow() {
+    var s = this.state || {};
+    var C = this.cfg();
+    return s.brush != null ? s.brush : (C.brush || 'love');
+  }
+
+  setVotes(list, val, text, hov, extra) {
+    var s = this.state || {};
+    var me = Object.assign({}, s.me || this.initMe());
+    list.forEach(function (i) { if (val) me[i] = val; else delete me[i]; });
+    var upd = Object.assign({ me: me }, extra || {});
+    if (hov != null) upd.hover = hov;
+    if (text) upd.log = [{ who: 'Martina', text: text, chips: val ? [[val]] : [], when: 'teďka' }].concat(s.log || []).slice(0, 5);
+    this.setState(upd);
+  }
+
+  valFor(i) {
+    var s = this.state || {};
+    var me = s.me || this.initMe();
+    var b = this.brushNow();
+    if (b === 'none') return null;
+    return me[i] === b ? null : b;
+  }
+
+  paintStart(i) {
+    if ((this.state || {}).range) return;
+    var v = this.valFor(i);
+    this._paint = { val: v, days: [i] };
+    this.setVotes([i], v, null, i, { paintN: 1, paintVal: v });
+  }
+
+  paintOver(i) {
+    var P = this._paint;
+    if (!P) { if ((this.state || {}).hover !== i) this.setState({ hover: i }); return; }
+    if (P.days.indexOf(i) >= 0) return;
+    P.days.push(i);
+    this.setVotes([i], P.val, null, i, { paintN: P.days.length, paintVal: P.val });
+  }
+
+  rangeText(ds, val) {
+    var D = this.data();
+    var what = ds.length === 1 ? D.days[ds[0]].label : ds.length + ' ' + this.dni(ds.length) + ' (' + D.days[ds[0]].label + ' – ' + D.days[ds[ds.length - 1]].label + ')';
+    return (val ? 'naklikala ' : 'smazala ') + what;
+  }
+
+  paintEnd() {
+    var P = this._paint;
+    if (!P) return;
+    this._paint = null;
+    this._endAt = Date.now();
+    var ds = P.days.slice().sort(function (x, y) { return x - y; });
+    this.setVotes([], P.val, this.rangeText(ds, P.val), null, { paintN: 0 });
+  }
+
+  clickCell(i) {
+    if (this._endAt && Date.now() - this._endAt < 400) { this._endAt = 0; return; }
+    var s = this.state || {};
+    if (s.range) {
+      if (s.anchor == null) { this.setState({ anchor: i, hover: i }); return; }
+      var b = this.brushNow(), val = b === 'none' ? null : b;
+      var a = Math.min(s.anchor, i), z = Math.max(s.anchor, i), list = [];
+      for (var k = a; k <= z; k++) list.push(k);
+      this.setVotes(list, val, this.rangeText(list, val), i, { anchor: null });
+      return;
+    }
+    var v = this.valFor(i);
+    this.setVotes([i], v, this.rangeText([i], v), i);
+  }
+
+  setOne(i, k) {
+    var s = this.state || {};
+    var me = s.me || this.initMe();
+    var v = me[i] === k ? null : k;
+    this.setVotes([i], v, this.rangeText([i], v), i);
+  }
+
+  setGroup(list, k, title) {
+    this.setVotes(list, k, 'naklikala celý víkend ' + title, list[0]);
+  }
+
+  fill(kind, scope) {
+    var D = this.data();
+    var b = this.brushNow();
+    var val = b === 'none' ? null : b;
+    var list = D.days.filter(function (d) {
+      if (scope !== 'all' && d.m !== scope) return false;
+      if (kind === 'wknd') return d.dow === 0 || d.dow === 6;
+      if (kind === 'fss') return d.dow === 5 || d.dow === 6 || d.dow === 0;
+      if (kind === 'wkdy') return d.dow >= 1 && d.dow <= 5;
+      return true;
+    }).map(function (d) { return d.i; });
+    var where = scope === 'all' ? 'od května do července' : D.MONLOC[scope];
+    var what = kind === 'all' ? (scope === 'all' ? 'úplně všecko' : D.MONACC[scope]) : ({ wknd: 'všecky víkendy ', fss: 'všecky pátky až neděle ', wkdy: 'všecky všední dny ' }[kind] + where);
+    this.setVotes(list, val, (val ? 'naklikala ' : 'smazala ') + what, null);
+  }
+
+  renderVals() {
+    var self = this;
+    var C = this.cfg();
+    var D = this.data();
+    var s = this.state || {};
+    var me = s.me || this.initMe();
+    var KN = ['', 'love', 'ok', 'no'];
+    var LBL = { love: 'Hodí se mi', ok: 'Šlo by to', no: 'Nemůžu' };
+    var SHORT = { love: 'hodí se', ok: 'šlo by', no: 'nemůžu' };
+    var GRP = { love: 'Hodí se', ok: 'Šlo by to', no: 'Nemůžou' };
+    var DESC = { love: 'Ten den můžu přijít.', ok: 'Asi by se to dalo zařídit.', no: 'Ten den určitě nemůžu.', none: 'Smaže, co je u dne označené.' };
+    var n = D.days.length;
+    var voters = D.names.length + 1;
+
+    var cnt = [];
+    for (var i = 0; i < n; i++) {
+      var c0 = { love: 0, ok: 0, no: 0 };
+      for (var p = 0; p < D.votes.length; p++) { var v = D.votes[p][i]; if (v) c0[KN[v]]++; }
+      if (me[i]) c0[me[i]]++;
+      c0.score = c0.love + 0.5 * c0.ok - c0.no;
+      cnt.push(c0);
+    }
+
+    var sm = [];
+    for (var a = 0; a < n; a++) {
+      var acc = 0, wsum = 0;
+      for (var j = Math.max(0, a - 6); j <= Math.min(n - 1, a + 6); j++) {
+        var kk = Math.exp(-((a - j) * (a - j)) / 6.5);
+        acc += cnt[j].score * kk; wsum += kk;
+      }
+      sm.push(acc / wsum);
+    }
+    var lo = Math.min.apply(null, sm), hi = Math.max.apply(null, sm);
+    var wTop = C.waveTop != null ? C.waveTop : 10, wBot = C.waveBot != null ? C.waveBot : 96;
+    function yOf(val) { return wBot - (val - lo) / ((hi - lo) || 1) * (wBot - wTop); }
+    var wave = '';
+    for (var q = 0; q < n; q++) wave += (q ? ' L' : 'M') + (q + 0.5).toFixed(1) + ',' + yOf(sm[q]).toFixed(2);
+    var waveArea = wave + ' L' + (n - 0.5) + ',100 L0.5,100 Z';
+
+    var idx = cnt.map(function (c, k) { return k; });
+    idx.sort(function (x, y) { return cnt[y].score - cnt[x].score || x - y; });
+    var bestSet = {};
+    idx.slice(0, 3).forEach(function (k, r) { bestSet[k] = r + 1; });
+    var best = idx.slice(0, 3).map(function (k, r) {
+      var c = cnt[k], d = D.days[k], T = voters;
+      return {
+        rank: r + 1, label: d.label, full: d.full, love: c.love, ok: c.ok, no: c.no,
+        lp: (c.love / T * 100).toFixed(1) + '%', op: (c.ok / T * 100).toFixed(1) + '%', np: (c.no / T * 100).toFixed(1) + '%',
+        left: ((k + 0.5) / n * 100).toFixed(2) + '%', top: yOf(sm[k]).toFixed(2) + '%',
+        cardBg: r === 0 ? (C.best1Bg || '#FFFFFF') : (C.bestBg || '#FFFFFF'),
+        pick: function () { self.setState({ hover: k, month: d.m }); }
+      };
+    });
+
+    var hv = s.hover != null ? s.hover : idx[0];
+
+    var cells = D.days.map(function (d) {
+      var c = cnt[d.i], mine = me[d.i] || null, k = mine || 'none', st = C.cell[k];
+      function pc(x) { return (x / voters * 100).toFixed(1) + '%'; }
+      var isAnchor = s.anchor === d.i;
+      return {
+        blank: false, real: true, i: d.i, dom: d.dom, label: d.label, wk: d.wk,
+        bg: st.bg, fg: st.fg, bd: st.bd, bs: st.bs || 'solid', td: st.td || 'none', fw: d.wk ? '700' : '400',
+        isLove: mine === 'love', isOk: mine === 'ok', isNo: mine === 'no', mine: !!mine, none: !mine,
+        word: mine ? SHORT[mine] : '', mineCol: mine ? C[mine] : 'transparent',
+        lp: pc(c.love), op: pc(c.ok), np: pc(c.no), love: c.love, ok: c.ok, no: c.no,
+        best: !!bestSet[d.i], rank: bestSet[d.i] || 0, anchor: isAnchor,
+        on: d.i === hv, ring: isAnchor ? (C.anchorRing || '#C2352B') : (d.i === hv ? C.ring : 'transparent'),
+        tap: function () { self.clickCell(d.i); },
+        down: function (e) {
+          if (e && e.target && e.target.releasePointerCapture && e.pointerId != null) { try { e.target.releasePointerCapture(e.pointerId); } catch (x) {} }
+          self.paintStart(d.i);
+        },
+        over: function () { self.paintOver(d.i); },
+        aria: d.full + '. Tvoje volba: ' + (mine ? LBL[mine] : 'nic') + '. Všichni: hodí se ' + c.love + ', šlo by ' + c.ok + ', nemůže ' + c.no + '.'
+      };
+    });
+    function blank() { return { blank: true, real: false }; }
+
+    var mo = s.month != null ? s.month : 1;
+    var months = D.MONL.map(function (name, m) {
+      var ds = cells.filter(function (c) { return D.days[c.i].m === m; });
+      var lead = (D.days[ds[0].i].dow + 6) % 7;
+      var list = [];
+      for (var z = 0; z < lead; z++) list.push(blank());
+      list = list.concat(ds);
+      while (list.length % 7) list.push(blank());
+      var on = m === mo, t = on ? C.tab.on : C.tab.off;
+      var mine = ds.filter(function (c) { return c.mine; }).length;
+      return { i: m, name: name, cells: list, on: on, off: !on, tabBg: t.bg, tabFg: t.fg, tabBd: t.bd, tabSh: t.sh || 'none', marked: mine, markedText: mine ? mine + ' ' + self.dni(mine) : 'zatím nic', pick: function () { self.setState({ month: m }); } };
+    });
+
+    var U = C.U;
+    var hist = D.MONL.map(function (name, m) {
+      var bars = D.days.filter(function (d) { return d.m === m; }).map(function (d) {
+        var c = cnt[d.i], on = d.i === hv;
+        return {
+          i: d.i, label: d.full + ': hodí se ' + c.love + ', šlo by ' + c.ok + ', nemůže ' + c.no, lh: c.love * U, oh: c.ok * U, nh: c.no * U, on: on,
+          colBg: on ? C.hoverBg : 'transparent',
+          hov: function () { self.setState({ hover: d.i }); }
+        };
+      });
+      return { name: name, n: bars.length, flex: bars.length + ' 1 0px', bars: bars };
+    });
+
+    var grp = { love: [], ok: [], no: [] };
+    D.votes.forEach(function (row, pp) { var vv = row[hv]; if (vv) grp[KN[vv]].push(D.names[pp]); });
+    if (me[hv]) grp[me[hv]].push('Martina (ty)');
+    var tipGroups = ['love', 'ok', 'no'].map(function (k) {
+      var arr = grp[k].sort(function (x, y) { return x.localeCompare(y, 'cs'); });
+      return { k: k, title: GRP[k], n: arr.length, names: arr.length ? arr.join(', ') : 'nikdo', color: C[k] };
+    });
+    var px = (hv + 0.5) / n * 100, hc = cnt[hv];
+    var tip = {
+      label: D.days[hv].full, short: D.days[hv].label, groups: tipGroups,
+      x: px.toFixed(2) + '%', tx: px > 55 ? 'calc(-100% - 12px)' : '12px',
+      love: hc.love, ok: hc.ok, no: hc.no, silent: voters - hc.love - hc.ok - hc.no
+    };
+
+    var baseLog = [
+      { who: 'Tereza', text: 'naklikala 18 dní', chips: [['love', 9], ['ok', 5], ['no', 4]], when: 'před 12 min' },
+      { who: 'Lucie', text: 'si to rozmyslela: So 12. 6. z „nemůžu“ na', chips: [['love']], when: 'před 41 min' },
+      { who: 'Petr', text: 'konečně dorazil a naklikal 11 dní', chips: [['love', 6], ['ok', 3], ['no', 2]], when: 'před hodinou' },
+      { who: 'Jakub', text: 'je 19.–31. 7. na dovolené, takže', chips: [['no', 13]], when: 'před 2 h' },
+      { who: 'Hana', text: 'naklikala 9 dní', chips: [['love', 4], ['ok', 4], ['no', 1]], when: 'před 3 h' },
+      { who: 'Ondřej', text: 'si to rozmyslel: So 19. 6. z „šlo by“ na', chips: [['love']], when: 'včera' },
+      { who: 'Eva', text: 'naklikala 15 dní', chips: [['love', 7], ['ok', 2], ['no', 6]], when: 'včera' },
+      { who: 'Michal', text: 'se konečně ozval', chips: [], when: 'předevčírem' }
+    ];
+    var history = (s.log || []).concat(baseLog).slice(0, C.logMax || 8).map(function (e) {
+      var hsh = 0;
+      for (var u = 0; u < e.who.length; u++) hsh = (hsh * 31 + e.who.charCodeAt(u)) >>> 0;
+      var av = C.avatars[hsh % C.avatars.length];
+      return {
+        who: e.who, ini: e.who.charAt(0), text: e.text, when: e.when, av: av[0], avFg: av[1], live: e.when === 'teďka',
+        chips: e.chips.map(function (ch) {
+          var cc = C.chip[ch[0]];
+          return { k: ch[0], label: ch[1] != null ? ch[1] + '× ' + SHORT[ch[0]] : LBL[ch[0]], bg: cc.bg, fg: cc.fg };
+        })
+      };
+    });
+
+    var bnow = this.brushNow();
+    var BO = C.brushOn || {}, BF = C.brushOff || { bg: '', fg: '', bd: '' };
+    var brushes = ['love', 'ok', 'no', 'none'].map(function (k) {
+      var on = bnow === k, st = on ? (BO[k] || BF) : BF, cs = C.cell[k === 'none' ? 'none' : k];
+      return {
+        k: k, label: k === 'none' ? 'Guma' : LBL[k], desc: DESC[k], on: on, bg: st.bg, fg: st.fg, bd: st.bd, sh: st.sh || 'none', tr: st.tr || 'none',
+        dot: k === 'none' ? 'transparent' : C[k], sBg: cs.bg, sBd: k === 'none' ? '#8A97AE' : cs.bd, sBs: k === 'none' ? 'dotted' : (cs.bs || 'solid'), sFg: cs.fg, sTd: cs.td || 'none',
+        isLove: k === 'love', isOk: k === 'ok', isNo: k === 'no', isNone: k === 'none', check: on,
+        pick: function () { self.setState({ brush: k }); }
+      };
+    });
+
+    var weekends = [];
+    if (C.seg) {
+      var gcur = null, groups = [];
+      D.days.forEach(function (d) {
+        if (d.dow === 5 || d.dow === 6 || d.dow === 0) {
+          if (!gcur || d.i - gcur.last > 1) { gcur = { idx: [] }; groups.push(gcur); }
+          gcur.idx.push(d.i); gcur.last = d.i;
+        }
+      });
+      var SEGL = { love: 'Hodí se', ok: 'Šlo by', no: 'Nemůžu' };
+      var cards = groups.map(function (gr) {
+        var fa = D.days[gr.idx[0]], za = D.days[gr.idx[gr.idx.length - 1]];
+        var title = D.DOW[fa.dow] + ' ' + fa.dom + '. – ' + D.DOW[za.dow] + ' ' + za.dom + '. ' + za.mon + '.';
+        var isBest = gr.idx.some(function (k) { return !!bestSet[k]; });
+        return {
+          title: title, m: fa.m, best: isBest, cardBd: isBest ? C.seg.bestBd : C.seg.cardBd, cardBg: isBest ? C.seg.bestBg : C.seg.cardBg,
+          days: gr.idx.map(function (k) {
+            var d = D.days[k], mine = me[k] || null, c = cnt[k];
+            return {
+              i: k, name: D.cap(d.dname), date: d.dom + '. ' + d.mon + '.', love: c.love, best: !!bestSet[k],
+              opts: ['love', 'ok', 'no'].map(function (o) {
+                var on = mine === o, st = on ? C.seg[o] : C.seg.off;
+                return { k: o, label: SEGL[o], on: on, bg: st.bg, fg: st.fg, bd: st.bd, pick: function () { self.setOne(k, o); } };
+              })
+            };
+          }),
+          all: ['love', 'ok', 'no'].map(function (o) { return { label: SEGL[o].toLowerCase(), pick: function () { self.setGroup(gr.idx, o, title); } }; })
+        };
+      });
+      weekends = D.MONL.map(function (name, m) { return { name: name, cards: cards.filter(function (c) { return c.m === m; }) }; });
+    }
+
+    var mc = { love: 0, ok: 0, no: 0 };
+    Object.keys(me).forEach(function (key) { mc[me[key]]++; });
+    var myTotal = mc.love + mc.ok + mc.no;
+    var help = s.help !== false;
+
+    return {
+      voters: voters, best: best, top: best[0], wave: wave, waveArea: waveArea,
+      months: months, cur: months[mo],
+      hist: hist, tip: tip, history: history, brushes: brushes, weekends: weekends,
+      brushName: bnow === 'none' ? 'Guma' : LBL[bnow],
+      endPaint: function () { self.paintEnd(); },
+      range: !!s.range, rangeOff: !s.range,
+      rangeHint: s.anchor != null ? 'Teď klikni na poslední den.' : 'Klikni na první den rozsahu.',
+      toggleRange: function () { self.setState({ range: !s.range, anchor: null }); },
+      rangeBg: s.range ? (C.rangeOn || '#1E3A8A') : (C.rangeOff || '#C6D1E0'), rangeKnob: s.range ? '22px' : '2px',
+      help: help, noHelp: !help, toggleHelp: function () { self.setState({ help: !help }); },
+      helpLabel: help ? 'Už vím, schovat' : 'Jak na to?',
+      painting: !!s.paintN, paintText: s.paintN ? ((s.paintVal ? 'Značíš ' : 'Mažeš ') + s.paintN + ' ' + this.dni(s.paintN) + (s.paintVal ? ': ' + LBL[s.paintVal] : '')) : '',
+      quick: [['wknd', 'Víkendy'], ['fss', 'Pá–Ne'], ['wkdy', 'Všední dny'], ['all', 'Celý měsíc']].map(function (qq) { return { label: qq[1], pick: function () { self.fill(qq[0], mo); } }; }),
+      quickAll: [['wknd', 'všecky víkendy'], ['fss', 'všecky pátky až neděle'], ['wkdy', 'všecky všední dny'], ['all', 'úplně všecko']].map(function (qq) { return { label: qq[1], pick: function () { self.fill(qq[0], 'all'); } }; }),
+      myLove: mc.love, myOk: mc.ok, myNo: mc.no, myTotal: myTotal, myText: myTotal + ' ' + this.dni(myTotal), myNone: myTotal === 0, mySome: myTotal > 0,
+      dows: [{ d: 'Po' }, { d: 'Út' }, { d: 'St' }, { d: 'Čt' }, { d: 'Pá' }, { d: 'So' }, { d: 'Ne' }]
+    };
+  }
+}
+</script>
+</body>
+</html>

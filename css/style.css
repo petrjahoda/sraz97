@@ -1,0 +1,157 @@
+/* ===== Tokens (HANDOFF §10) ===== */
+:root {
+  --ink: #1E3A8A;
+  --text: #22304D;
+  --text-2: #3B4A6B;
+  --muted: #4A5878;
+  --red-stroke: #C2352B;
+  --red-text: #B02E24;
+  --red-note: #8A2A20;
+  --margin-line: #EFA8A8;
+  --paper: #FBFCFE;
+  --grid: #E3EBF5;
+  --card: #FFFFFF;
+  --card-warm: #FFFEF7;
+  --card-border: #D5DEEA;
+  --divider: #DCE5F0;
+  --sticky: #FFF2A6;
+  --sticky-text: #5B4A00;
+  --sticky-text-2: #2E2A12;
+  --love: #1F7A45;
+  --love-text: #17703C;
+  --love-light: #E4F3E9;
+  --ok: #F0B23E;
+  --ok-border: #E39A1E;
+  --ok-text: #7A4A00;
+  --ok-light: #FDF0D5;
+  --no: #E06650;
+  --no-border: #D45A48;
+  --no-text: #9B2C1C;
+  --no-light: #FBE1DC;
+  --neutral-border: #C6D1E0;
+  --selected-col: rgba(30, 58, 138, 0.10);
+  --hand: Caveat, cursive;
+  --body: Kalam, 'Segoe Print', 'Comic Sans MS', cursive;
+  --radius-hand: 16px 12px 18px 12px;
+  --shadow-card: 0 10px 24px rgba(34, 48, 77, 0.08);
+  --shadow-card-2: 0 10px 24px rgba(34, 48, 77, 0.10);
+  --shadow-sticky: 0 8px 16px rgba(34, 48, 77, 0.14);
+}
+
+/* ===== Base ===== */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+a { color: var(--ink); }
+a:hover { color: var(--red-text); }
+
+button { font: inherit; color: inherit; }
+
+:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0; border: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+.noscript { padding: 24px; font-size: 18px; }
+
+/* Paper page with the red margin line on the left */
+.page {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+.page::before {
+  content: '';
+  position: absolute;
+  left: 40px; top: 0; bottom: 0;
+  width: 2px;
+  background: var(--margin-line);
+}
+
+.hand {
+  font-family: var(--hand);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.squiggle { display: block; max-width: 100%; }
+.squiggle path { fill: none; stroke: var(--red-stroke); stroke-width: 2.5; stroke-linecap: round; }
+
+.btn-primary {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 54px;
+  border: 0;
+  border-radius: var(--radius-hand);
+  background: var(--ink);
+  color: #FFFFFF;
+  font-family: var(--body);
+  font-size: 19px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.btn-primary:hover { background: #172E6E; color: #FFFFFF; }
+.btn-primary[disabled] { opacity: 0.7; cursor: wait; }
+.btn-primary svg path { fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+
+.field { display: flex; flex-direction: column; gap: 4px; }
+.field label { font-size: 16px; font-weight: 700; }
+.field .optional { font-weight: 400; color: var(--muted); }
+.field input {
+  min-height: 50px;
+  padding: 0 14px;
+  border: 2px solid var(--neutral-border);
+  border-radius: 12px;
+  background: #FFFFFF;
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 18px;
+}
+.field input:focus { border-color: var(--ink); outline: none; }
+.field input:focus-visible { outline: 3px solid rgba(30, 58, 138, 0.35); outline-offset: 1px; }
+.field .hint { font-size: 14px; color: var(--muted); }
+
+.form-error {
+  margin: 0;
+  color: var(--red-text);
+  font-weight: 700;
+  font-size: 16px;
+}
+
+/* Loading screen while auth state is restored */
+.boot {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--hand); font-weight: 700; font-size: 40px; color: var(--ink);
+}
+
+/* ===== Reduced motion: no rotations, no transitions ===== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+  .tilt { transform: none !important; }
+}
