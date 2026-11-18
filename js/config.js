@@ -3,12 +3,12 @@
 // Firebase console → Project settings → Your apps → Web app → firebaseConfig.
 // This config is public by design; the shared password protects the data.
 export const FIREBASE_CONFIG = {
-  apiKey: 'REPLACE_ME',
-  authDomain: 'REPLACE_ME.firebaseapp.com',
-  projectId: 'REPLACE_ME',
-  storageBucket: 'REPLACE_ME.firebasestorage.app',
-  messagingSenderId: 'REPLACE_ME',
-  appId: 'REPLACE_ME',
+  apiKey: 'AIzaSyBEwj0zoS7BjDhW5gFZCIBMqvahiEGRnac',
+  authDomain: 'sraz-97.firebaseapp.com',
+  projectId: 'sraz-97',
+  storageBucket: 'sraz-97.firebasestorage.app',
+  messagingSenderId: '1021726907601',
+  appId: '1:1021726907601:web:8c79aaa427aafdbfde79f0',
 };
 
 // The one Email/Password user in Firebase Auth, in lowercase.
