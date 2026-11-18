@@ -511,9 +511,15 @@ button { font: inherit; color: inherit; }
 .day.selected { outline-color: var(--ink); }
 .day.anchor { outline-color: var(--red-stroke); outline-style: solid; }
 .day:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
-.day-rank {
+/* Rank of the top-3 days, drawn in CSS so it isn't part of the button's text
+   (the aria-label stays "Sobota 19. června…", not "191."). */
+.day.ranked::after {
+  content: attr(data-rank) ".";
+  content: attr(data-rank) "." / ""; /* browsers without alt-text syntax keep the line above */
   position: absolute; right: -6px; top: -8px;
-  font-size: 16px; color: var(--red-text);
+  font-family: var(--hand); font-weight: 700; font-size: 16px; line-height: 1;
+  color: var(--red-text);
+  text-decoration: none;
 }
 
 /* Chart */
@@ -615,7 +621,8 @@ button { font: inherit; color: inherit; }
 .name-sticky-phone { flex: none; min-width: 0; padding: 6px 12px 8px; box-shadow: 0 6px 12px rgba(34, 48, 77, 0.14); gap: 0; }
 .name-sticky-phone .name-sticky-hi { font-size: 12px; }
 .name-sticky-phone .name-sticky-name { font-size: 26px; }
-.name-sticky-phone .name-sticky-links { flex-direction: column; gap: 2px; font-size: 13px; margin-top: 2px; }
+.name-sticky-phone .name-sticky-links { flex-direction: column; gap: 0; font-size: 13px; }
+.name-sticky-phone .name-sticky-links > * { min-height: 24px; display: inline-flex; align-items: center; }
 
 .phone-help { padding: 12px 14px 14px; transform: rotate(-0.5deg); box-shadow: var(--shadow-sticky); display: flex; flex-direction: column; gap: 6px; }
 .phone-help-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
@@ -672,7 +679,7 @@ button { font: inherit; color: inherit; }
 .months-phone { display: block; }
 .months-phone .month-grid { gap: 4px; }
 .months-phone .day { max-width: 46px; font-size: 18px; outline-offset: 1px; }
-.months-phone .day-rank { right: -4px; top: -7px; }
+.months-phone .day.ranked::after { right: -4px; top: -7px; }
 .cal-phone .drag-tip { flex-wrap: nowrap; gap: 10px; padding: 8px 12px; }
 .cal-phone .drag-tip-text { flex: 1 1 auto; font-size: 14px; }
 .fill-chips { display: flex; align-items: center; gap: 6px; overflow-x: auto; padding-bottom: 4px; }

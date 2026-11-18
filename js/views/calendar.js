@@ -66,19 +66,20 @@ function dayButton(s, d, day) {
   const mine = d.myVotes[day.iso];
   const rank = d.rank.get(day.index);
   return html`
-    <button type="button" data-index=${day.index}
+    <button type="button" data-index=${day.index} data-rank=${rank || ''}
       class=${classMap({
         day: true,
         [`mark-${mine}`]: Boolean(mine),
         weekend: day.weekend,
         selected: d.selected === day.index,
         anchor: s.rangeAnchor === day.index,
+        ranked: Boolean(rank),
       })}
       aria-label=${dayAria(day, d)}
       @pointerdown=${(e) => dayPointerDown(e, day.index)}
       @pointerenter=${() => dayPointerEnter(day.index)}
       @click=${(e) => dayClick(e, day.index)}
-      @keydown=${onDayKey}>${day.dom}${rank ? html`<span class="hand day-rank" aria-hidden="true">${rank}.</span>` : nothing}</button>`;
+      @keydown=${onDayKey}>${day.dom}</button>`;
 }
 
 function monthGrid(s, d, month) {
