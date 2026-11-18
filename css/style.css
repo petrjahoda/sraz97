@@ -209,7 +209,7 @@ button { font: inherit; color: inherit; }
 .login-intro { flex: 1 1 400px; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
 .login-title { margin: 0; font-size: 80px; line-height: 0.95; }
 .login-sub { margin: 0; font-size: 21px; color: var(--text-2); }
-.login-doodle { width: 100%; max-width: 440px; height: auto; margin-top: 8px; }
+.login-doodle { width: 100%; max-width: 490px; height: auto; margin-top: 8px; }
 .doodle-wave { fill: none; stroke: var(--ink); stroke-width: 3; stroke-linecap: round; }
 .doodle-dot { fill: #FFFFFF; stroke: var(--red-stroke); stroke-width: 3; }
 .doodle-pointer { fill: none; stroke: var(--red-stroke); stroke-width: 2.2; stroke-linecap: round; }

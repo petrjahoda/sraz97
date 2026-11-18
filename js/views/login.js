@@ -43,7 +43,7 @@ async function onSubmit(event) {
 }
 
 const doodle = html`
-  <svg class="login-doodle" viewBox="0 0 400 110" aria-hidden="true">
+  <svg class="login-doodle" viewBox="0 0 450 110" aria-hidden="true">
     <path class="doodle-wave" d="M4 96 C 40 92, 60 70, 90 78 S 140 96, 170 70 S 220 14, 250 22 S 290 80, 320 70 S 370 56, 396 84"></path>
     <circle class="doodle-dot" cx="250" cy="22" r="7"></circle>
     <path class="doodle-pointer" d="M282 10 C 272 6, 266 10, 262 16"></path>
