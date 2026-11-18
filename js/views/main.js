@@ -4,7 +4,7 @@ import {
   votesWithOverlay, dayCounts, smoothScores, wavePaths, topDays, shortNamer,
   countVoted, defaultMonthIndex,
 } from '../model.js';
-import { DAYS, MONTHS, me } from '../store.js';
+import { DAYS, MONTHS, me, update } from '../store.js';
 import { desktopHeader, phoneHeader } from './header.js';
 import { helpColumnTop, helpNotesCalendar, helpNoteChart, helpNoteHistory, phoneHelp } from './help.js';
 import { hero } from './hero.js';
@@ -47,7 +47,13 @@ function derive(s) {
 
 function withSelection(s, d) {
   const selected = s.selected ?? d.top[0] ?? 0;
-  const phoneMonth = s.phoneMonth ?? defaultMonthIndex(MONTHS, DAYS, d.top);
+  let phoneMonth = s.phoneMonth;
+  if (phoneMonth === null) {
+    // Pick the phone's month once (the best day's month) and keep it. Following
+    // the best day live would flip the month under someone's finger mid-drag.
+    phoneMonth = defaultMonthIndex(MONTHS, DAYS, d.top);
+    update({ phoneMonth });
+  }
   return { ...d, selected, phoneMonth };
 }
 
@@ -77,7 +83,7 @@ function desktopPage(s, d) {
                 ${s.help ? helpNoteChart() : ''}
                 <div class="help-row-main">${chartHeading(false)}</div>
               </div>
-              ${chart(s, d, false)}
+              ${chart(s, d)}
             </section>
           </div>
 

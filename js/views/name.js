@@ -54,6 +54,11 @@ function onSubmit(event) {
     console.warn('Saving the name failed', err.code || err);
     showToast(SAVE_ERROR);
   });
+  // Show the person right away. Firestore's own local snapshot arrives a moment
+  // later; until then the route guard would see "nobody" and bounce back here.
+  // The next snapshot replaces this copy (or removes it if the save failed).
+  const shown = { ...person, votes: existing ? existing.votes : {} };
+  update({ people: [...state.people.filter((p) => p.id !== person.id), shown] });
   go('main');
 }
 

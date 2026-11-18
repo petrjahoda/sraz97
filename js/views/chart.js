@@ -5,6 +5,8 @@ import { DAYS, MONTHS, update } from '../store.js';
 import { monthAxis } from './hero.js';
 
 const GROUP_TITLE = { love: 'Hodí se', ok: 'Šlo by to', no: 'Nemůžou' };
+const TIP_WIDTH = 340; // px, keep in sync with .tooltip in style.css
+const TIP_GAP = 12;
 
 export function chartHeading(phone) {
   return html`
@@ -61,11 +63,11 @@ function tooltipContent(d) {
 }
 
 export function chart(s, d) {
-  const x = ((d.selected + 0.5) / DAYS.length) * 100;
-  const tipStyle = {
-    left: `${x.toFixed(2)}%`,
-    '--tip-shift': x > 55 ? 'calc(-100% - 12px)' : '12px',
-  };
+  // Beside the selected bar (right of it up to 55 %, else left of it), but
+  // clamped so it never sticks out of the chart on narrow screens (iPad).
+  const x = (((d.selected + 0.5) / DAYS.length) * 100).toFixed(2);
+  const beside = Number(x) > 55 ? `calc(${x}% - ${TIP_WIDTH + TIP_GAP}px)` : `calc(${x}% + ${TIP_GAP}px)`;
+  const tipStyle = { left: `clamp(0px, ${beside}, calc(100% - ${TIP_WIDTH}px))` };
   return html`
     <div class="chart">
       <div class="plot">

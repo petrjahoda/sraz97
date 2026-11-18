@@ -28,6 +28,7 @@ export const state = {
   // shared data
   people: [],
   peopleLoaded: false,
+  peopleFromServer: false, // the people list has been confirmed by the server at least once
   log: [],
   dataError: false,
   // main page UI
@@ -43,6 +44,7 @@ export const state = {
   help: loadHelp(),
   toast: '',
   isPhone: phoneQuery.matches,
+  online: navigator.onLine,
   now: new Date(),
 };
 
@@ -79,7 +81,10 @@ export function showToast(text) {
   toastTimer = setTimeout(() => update({ toast: '' }), 6000);
 }
 
-phoneQuery.addEventListener('change', (e) => update({ isPhone: e.matches }));
+// Range mode only exists in the phone layout; rotating to a wide layout must not leave it on.
+phoneQuery.addEventListener('change', (e) => update({ isPhone: e.matches, rangeMode: false, rangeAnchor: null }));
+window.addEventListener('online', () => update({ online: true }));
+window.addEventListener('offline', () => update({ online: false }));
 setInterval(() => update({ now: new Date() }), 60000);
 
 // ---- Firestore subscriptions, alive while signed in ----
@@ -93,9 +98,15 @@ export function startData() {
     update({ dataError: true });
   };
   unsubscribers = [
-    watchPeople((people) => {
-      // The painted overlay is now part of the (latency-compensated) snapshot.
-      update({ people, peopleLoaded: true, dataError: false, overlay: state.painting ? state.overlay : {} });
+    watchPeople((people, fromServer) => {
+      update({
+        people,
+        peopleLoaded: true,
+        peopleFromServer: state.peopleFromServer || fromServer,
+        dataError: false,
+        // The painted overlay is now part of the (latency-compensated) snapshot.
+        overlay: state.painting ? state.overlay : {},
+      });
     }, onError),
     watchLog((log) => update({ log }), onError),
   ];
@@ -106,7 +117,7 @@ export function startData() {
 export function stopData() {
   for (const unsubscribe of unsubscribers) unsubscribe();
   unsubscribers = [];
-  update({ people: [], peopleLoaded: false, log: [], dataError: false });
+  update({ people: [], peopleLoaded: false, peopleFromServer: false, log: [], dataError: false });
 }
 
 export function me() {

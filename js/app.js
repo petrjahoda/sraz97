@@ -15,12 +15,17 @@ function allowedRoute(s) {
   if (!s.authReady) return null;
   if (!s.user || !s.meId) return 'login';
   if (!s.peopleLoaded) return null;
-  if (!me()) return 'name';
+  if (!me()) {
+    // Only the server can say "this person is new". A cache-only list (offline,
+    // flaky signal) may simply not have them yet, and the name step would then
+    // create the person again over their saved votes.
+    return s.peopleFromServer ? 'name' : null;
+  }
   return s.route === 'login' ? 'main' : s.route; // #/jmeno stays reachable for renaming
 }
 
 function bootScreen(s) {
-  const text = s.dataError ? 'Nejde se připojit. Zkus to za chvilku.' : 'Moment…';
+  const text = s.dataError || !s.online ? 'Nejde se připojit. Zkus to za chvilku.' : 'Moment…';
   return html`<div class="boot" role="status">${text}</div>`;
 }
 

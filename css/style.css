@@ -549,7 +549,7 @@ button { font: inherit; color: inherit; }
   padding: 12px 16px 14px;
   background: var(--sticky);
   box-shadow: 0 10px 20px rgba(34, 48, 77, 0.18);
-  transform: translateX(var(--tip-shift)) rotate(-1.2deg);
+  transform: rotate(-1.2deg);
   display: flex; flex-direction: column; gap: 6px;
   pointer-events: none;
 }
@@ -716,5 +716,5 @@ button { font: inherit; color: inherit; }
 .history-phone .chip { font-size: 12px; padding: 0 8px; }
 
 @media (prefers-reduced-motion: reduce) {
-  .tooltip { transform: translateX(var(--tip-shift)); }
+  .tooltip { transform: none; }
 }

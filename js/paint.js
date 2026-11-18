@@ -6,12 +6,12 @@ import { resolveClick, votesWithOverlay, fillIndices } from './model.js';
 import { DAYS, MONTHS, state, update, me, showToast } from './store.js';
 import { SAVE_ERROR } from './views/bits.js';
 
-// A synthetic click follows the pointerup that ended a gesture; ignore it.
-const CLICK_AFTER_GESTURE_MS = 400;
 const CONFIRM_CLEAR_FROM = 10;
 
 let gesture = null; // { value, indices, overlayBefore }
-let lastGestureEndAt = 0;
+// A tap is handled on pointerdown/up; the browser then also sends a click for
+// the same tap, which must not toggle the day back. Reset on every pointerdown.
+let swallowNextPointerClick = false;
 
 function myVotes() {
   const person = me();
@@ -55,6 +55,7 @@ function gestureText(indices, value) {
 // ---- drag painting ----
 
 export function dayPointerDown(event, index) {
+  swallowNextPointerClick = false;
   if (state.rangeMode) return;
   if (event.pointerType === 'mouse' && event.button !== 0) return;
   // Touch pointers are captured by the first element they hit; without
@@ -93,20 +94,17 @@ export function endPaint() {
   if (!gesture) return;
   const { value, indices, overlayBefore } = gesture;
   gesture = null;
-  lastGestureEndAt = Date.now();
+  swallowNextPointerClick = true;
   // Compare against what was shown before the gesture, not the painted preview.
   update({ overlay: overlayBefore, painting: null });
   commit(indices, value, gestureText(indices, value));
 }
 
-// pointercancel: the browser took over the touch (usually to scroll). A
-// gesture that never left its first day was a scroll, not a tap: drop it.
+// pointercancel: the browser took the touch over to scroll the page. With
+// touch-action: pan-y a sideways paint never gets here, so whatever was painted
+// on the way (often the day above the finger) was an accident: drop it all.
 export function cancelPaint() {
   if (!gesture) return;
-  if (gesture.indices.length > 1) {
-    endPaint();
-    return;
-  }
   update({ overlay: gesture.overlayBefore, painting: null });
   gesture = null;
 }
@@ -114,10 +112,12 @@ export function cancelPaint() {
 // ---- click / keyboard / range taps ----
 
 export function dayClick(event, index) {
-  // A mouse or touch click right after a gesture repeats what pointerdown/up
-  // already did. Keyboard clicks have detail 0 and always count.
+  // Keyboard clicks (Enter/Space) have detail 0 and always count.
   const fromPointer = event.detail > 0;
-  if (fromPointer && Date.now() - lastGestureEndAt < CLICK_AFTER_GESTURE_MS) return;
+  if (fromPointer && swallowNextPointerClick) {
+    swallowNextPointerClick = false;
+    return;
+  }
   if (state.rangeMode) {
     rangeTap(index);
     return;

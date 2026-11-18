@@ -4,14 +4,20 @@ import {
   getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut,
 } from 'https://www.gstatic.com/firebasejs/13.4.0/firebase-auth.js';
 import {
-  getFirestore, collection, doc, query, orderBy, limit, onSnapshot,
+  initializeFirestore, persistentLocalCache, persistentMultipleTabManager,
+  collection, doc, query, orderBy, limit, onSnapshot,
   writeBatch, serverTimestamp, deleteField, FieldPath,
 } from 'https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore.js';
 import { FIREBASE_CONFIG, SHARED_ACCOUNT_EMAIL } from './config.js';
 
 const app = initializeApp(FIREBASE_CONFIG);
 const auth = getAuth(app);
-const db = getFirestore(app);
+// Keep data and unsent writes in the browser (IndexedDB): votes made without
+// signal survive closing the tab and are sent on the next visit. Where
+// IndexedDB isn't available the SDK falls back to memory on its own.
+const db = initializeFirestore(app, {
+  localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }),
+});
 
 export const LOG_LIMIT = 30;
 
@@ -33,6 +39,8 @@ export function signOutShared() {
 
 // ---- reading ----
 
+// onChange(people, fromServer): fromServer is false while the list comes only
+// from the local cache (offline, or before the server has answered).
 export function watchPeople(onChange, onError) {
   return onSnapshot(collection(db, 'people'), (snap) => {
     const people = snap.docs.map((d) => {
@@ -45,7 +53,7 @@ export function watchPeople(onChange, onError) {
         votes: data.votes || {},
       };
     });
-    onChange(people);
+    onChange(people, !snap.metadata.fromCache);
   }, onError);
 }
 

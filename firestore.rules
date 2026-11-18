@@ -11,17 +11,23 @@ service cloud.firestore {
     }
 
     match /people/{personId} {
+      function validPerson() {
+        return request.resource.data.keys().hasOnly(['name', 'maiden', 'gender', 'votes', 'createdAt', 'updatedAt'])
+          && request.resource.data.name is string
+          && request.resource.data.name.size() >= 2
+          && request.resource.data.name.size() <= 80
+          && request.resource.data.maiden is string
+          && request.resource.data.maiden.size() <= 60
+          && request.resource.data.gender in ['f', 'm']
+          && request.resource.data.votes is map
+          && request.resource.data.votes.size() <= 92;
+      }
       allow read: if isClass();
-      allow create, update: if isClass()
-        && request.resource.data.keys().hasOnly(['name', 'maiden', 'gender', 'votes', 'createdAt', 'updatedAt'])
-        && request.resource.data.name is string
-        && request.resource.data.name.size() >= 2
-        && request.resource.data.name.size() <= 80
-        && request.resource.data.maiden is string
-        && request.resource.data.maiden.size() <= 60
-        && request.resource.data.gender in ['f', 'm']
-        && request.resource.data.votes is map
-        && request.resource.data.votes.size() <= 92;
+      allow create: if isClass() && validPerson();
+      // createdAt never changes, so creating a person again over an existing
+      // one (which would wipe their votes) is refused.
+      allow update: if isClass() && validPerson()
+        && request.resource.data.createdAt == resource.data.createdAt;
       allow delete: if false;
     }
 
