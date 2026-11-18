@@ -1,13 +1,13 @@
 rules_version = '2';
-// Replace SHARED_ACCOUNT_EMAIL with the shared account's e-mail in lowercase
-// (the same value as SHARED_ACCOUNT_EMAIL in js/config.js), then publish in
-// Firebase console → Firestore Database → Rules.
+// The e-mail below must equal SHARED_ACCOUNT_EMAIL in js/config.js (lowercase).
+// Publish: `npx firebase-tools deploy --only firestore:rules`
+// or paste into Firebase console → Firestore Database → Rules → Publish.
 service cloud.firestore {
   match /databases/{database}/documents {
 
     function isClass() {
       return request.auth != null
-        && request.auth.token.email == 'SHARED_ACCOUNT_EMAIL';
+        && request.auth.token.email == 'sraz97@example.com';
     }
 
     match /people/{personId} {

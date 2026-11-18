@@ -16,7 +16,7 @@ export const FIREBASE_CONFIG = {
 export const SHARED_ACCOUNT_EMAIL = 'sraz97@example.com';
 
 // Shown in the login footer ("Napiš na …").
-export const ORGANIZER_CONTACT = '[e-mail organizátora]';
+export const ORGANIZER_CONTACT = 'petr.jahoda@me.com';
 
 // First and last day people can mark, inclusive, as YYYY-MM-DD.
 // firestore.rules caps the number of votes per person at the number of days (92).
