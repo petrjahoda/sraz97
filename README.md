@@ -12,6 +12,7 @@ A small static site where classmates pick the best day for the reunion between 1
 - Firebase project: `sraz-97` (Spark plan, free), Firestore in `eur3` (Europe)
 - Shared account: `sraz97@example.com` (the password is only in Firebase Auth and the invitation, never in this repo)
 - Rules and the Email/Password provider are deployed from this repo: `npx firebase-tools deploy --only auth,firestore:rules`
+- The browser API key in `js/config.js` is public by design (every Firebase web app ships it). It's restricted to the Firebase APIs and to the referrers `https://petrjahoda.github.io/*`, `http://localhost:8000/*` and `http://localhost:8765/*` (Google Cloud console → APIs & Services → Credentials). GitHub's secret-scanning alert for it is closed as "won't fix" for that reason.
 - After the reunion you can delete the whole Firebase project (Project settings → General → Delete project).
 
 ## Setup (step by step)
