@@ -36,6 +36,9 @@
   --shadow-card: 0 10px 24px rgba(34, 48, 77, 0.08);
   --shadow-card-2: 0 10px 24px rgba(34, 48, 77, 0.10);
   --shadow-sticky: 0 8px 16px rgba(34, 48, 77, 0.14);
+  /* Desktop right column: best days in the hero, history below */
+  --side-col: 320px;
+  --hero-pad-x: 26px;
 }
 
 /* ===== Base ===== */
@@ -355,7 +358,7 @@ button { font: inherit; color: inherit; }
   background: var(--card);
   border: 1px solid var(--card-border);
   box-shadow: var(--shadow-card);
-  padding: 22px 26px 18px;
+  padding: 22px var(--hero-pad-x) 18px;
   display: flex; flex-wrap: wrap; align-items: stretch; gap: 24px 36px;
 }
 .hero-wave { flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
@@ -553,6 +556,7 @@ button { font: inherit; color: inherit; }
   display: flex; flex-direction: column; gap: 6px;
   pointer-events: none;
 }
+.tooltip[hidden] { display: none; }
 .tip-title { font-size: 28px; }
 .tip-row { display: flex; align-items: flex-start; gap: 8px; }
 .tip-dot { flex: none; margin-top: 6px; width: 10px; height: 10px; border-radius: 999px; box-shadow: 0 0 0 1px rgba(46, 42, 18, 0.35); }
@@ -567,7 +571,6 @@ button { font: inherit; color: inherit; }
   box-shadow: var(--shadow-card-2);
   padding: 22px 24px 12px;
   display: flex; flex-direction: column;
-  transform: rotate(0.5deg);
 }
 .history-title { margin: 0; font-size: 42px; }
 .history-sub { font-size: 14px; color: var(--muted); padding-bottom: 6px; }
@@ -604,6 +607,15 @@ button { font: inherit; color: inherit; }
   font-weight: 700;
 }
 .toast[hidden] { display: none; }
+
+/* From 1100 px the history sits right of the calendar. The hero's best-days
+   column and the history share one column, so their left edges line up and
+   the history card ends where the hero card ends. */
+@media (min-width: 1100px) {
+  .hero:not(.hero-phone) { display: grid; grid-template-columns: minmax(0, 1fr) var(--side-col); }
+  /* + 1px for the hero card border */
+  .main-cols { display: grid; grid-template-columns: minmax(0, 1fr) calc(var(--side-col) + var(--hero-pad-x) + 1px); }
+}
 
 /* ===== F4 Main page on phones ===== */
 .page-phone {

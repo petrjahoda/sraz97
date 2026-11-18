@@ -1,9 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  buildDays, monthsOf, votesWithOverlay, dayCounts, smoothScores, wavePaths, topDays,
+  buildDays, monthsOf, votesWithOverlay, dayCounts, wavePaths, topDays,
   resolveClick, fillIndices, countVoted, shortNamer, displayName, tooltipGroups,
-  chartUnit, defaultMonthIndex,
+  chartUnit, defaultMonthIndex, voteTotals, historyGroups,
 } from '../js/model.js';
 
 const days = buildDays('2027-05-01', '2027-07-31');
@@ -81,23 +81,61 @@ test('dayCounts counts every person and scores love + 0.5 ok - no', () => {
   assert.deepEqual(counts[2], { love: 0, ok: 0, no: 0, score: 0 });
 });
 
-test('wave paths and top 3 match the reference algorithm', () => {
+test('top 3 match the reference algorithm', () => {
   for (const seed of [1, 7, 42]) {
     const people = fakePeople(25, seed);
     const counts = dayCounts(days, people.map((p) => p.votes));
-    const ref = referenceWaveAndTop(counts);
-    const wave = wavePaths(smoothScores(counts.map((c) => c.score)));
-    assert.equal(wave.line, ref.wave, `line, seed ${seed}`);
-    assert.equal(wave.area, ref.waveArea, `area, seed ${seed}`);
-    assert.deepEqual(topDays(counts), ref.top, `top, seed ${seed}`);
+    assert.deepEqual(topDays(counts), referenceWaveAndTop(counts).top, `top, seed ${seed}`);
+  }
+});
+
+// Numbers in an SVG path as [x, y] pairs.
+function pathPoints(d) {
+  const nums = d.match(/-?\d+(\.\d+)?/g).map(Number);
+  const pts = [];
+  for (let i = 0; i + 1 < nums.length; i += 2) pts.push([nums[i], nums[i + 1]]);
+  return pts;
+}
+
+// One person: Thursdays "šlo by", Fridays and Saturdays "hodí se", Sunday to Wednesday "nemůžu".
+function weeklyPattern() {
+  const votes = {};
+  for (const d of days) votes[d.iso] = d.dow === 4 ? 'ok' : (d.dow === 5 || d.dow === 6) ? 'love' : 'no';
+  return dayCounts(days, [votes]).map((c) => c.score);
+}
+
+test('wave is a smooth curve through every day at its own height', () => {
+  const scores = weeklyPattern();
+  const wave = wavePaths(scores);
+  assert.equal((wave.line.match(/C/g) || []).length, 91);
+  const ends = wave.line.split(' C').slice(1).map((seg) => pathPoints(seg)[2]);
+  ends.forEach(([x, y], i) => {
+    assert.equal(x, i + 1.5);
+    assert.equal(y, Number(wave.ys[i + 1].toFixed(2)));
+  });
+});
+
+test('every Friday and Saturday peaks at the top, the range edges included', () => {
+  const wave = wavePaths(weeklyPattern());
+  days.forEach((d, i) => {
+    if (d.dow === 5 || d.dow === 6) assert.equal(wave.ys[i], 10, d.iso);
+    if (d.dow === 0 || (d.dow >= 1 && d.dow <= 3)) assert.equal(wave.ys[i], 96, d.iso);
+  });
+});
+
+test('wave never overshoots the highest or lowest day', () => {
+  for (const scores of [weeklyPattern(), dayCounts(days, fakePeople(25, 7).map((p) => p.votes)).map((c) => c.score)]) {
+    for (const [, y] of pathPoints(wavePaths(scores).line)) {
+      assert.ok(y >= 10 - 1e-9 && y <= 96 + 1e-9, String(y));
+    }
   }
 });
 
 test('wave is flat at the bottom when nobody voted', () => {
-  const counts = dayCounts(days, []);
-  const wave = wavePaths(smoothScores(counts.map((c) => c.score)));
+  const wave = wavePaths(dayCounts(days, []).map((c) => c.score));
   assert.ok(wave.ys.every((y) => y === 96));
-  assert.ok(wave.line.startsWith('M0.5,96.00 L1.5,96.00'));
+  assert.ok(pathPoints(wave.line).every(([, y]) => y === 96));
+  assert.ok(wave.area.endsWith('L91.50,100.00 L0.50,100.00 Z'));
 });
 
 test('topDays skips days without a positive score', () => {
@@ -194,4 +232,43 @@ test('defaultMonthIndex follows the top day, else the middle month', () => {
   const months = monthsOf(days);
   assert.equal(defaultMonthIndex(months, days, [80]), 2);
   assert.equal(defaultMonthIndex(months, days, []), 1);
+});
+
+test('voteTotals counts each pen, zeros included', () => {
+  assert.deepEqual(voteTotals({ a: 'love', b: 'love', c: 'no' }), [
+    { kind: 'love', count: 2 }, { kind: 'ok', count: 0 }, { kind: 'no', count: 1 },
+  ]);
+  assert.deepEqual(voteTotals({}), [
+    { kind: 'love', count: 0 }, { kind: 'ok', count: 0 }, { kind: 'no', count: 0 },
+  ]);
+});
+
+test('historyGroups makes one line per person per calendar day, newest first', () => {
+  const at = (d, h, m = 0) => new Date(2027, 5, d, h, m);
+  const totals = (love, ok, no) => [{ kind: 'love', count: love }, { kind: 'ok', count: ok }, { kind: 'no', count: no }];
+  const entries = [ // as delivered: newest first
+    { personId: 'p', name: 'Petr Novák', text: 'naklikal 4 dny (…)', chips: totals(9, 5, 38), at: at(12, 18, 5) },
+    { personId: 'j', name: 'Jana Malá', text: 'naklikala So 19. 6.', chips: totals(1, 0, 0), at: at(12, 18, 0) },
+    { personId: 'p', name: 'Petr Novák', text: 'naklikal 13 dní (…)', chips: totals(9, 5, 34), at: at(12, 17, 50) },
+    { personId: 'p', name: 'Petr Novák', text: 'se poprvé ukázal', chips: [], at: at(12, 17, 40) },
+    { personId: 'j', name: 'Jana Malá', text: 'se poprvé ukázala', chips: [], at: at(11, 9, 0) },
+    { personId: 'p', name: 'Petr Novák', text: 'naklikal Po 3. 5.', chips: totals(1, 0, 0), at: at(11, 8, 0) },
+  ];
+  assert.deepEqual(historyGroups(entries), [
+    { personId: 'p', name: 'Petr Novák', at: at(12, 18, 5), totals: totals(9, 5, 38), text: 'naklikal 4 dny (…)' },
+    { personId: 'j', name: 'Jana Malá', at: at(12, 18, 0), totals: totals(1, 0, 0), text: 'naklikala So 19. 6.' },
+    { personId: 'j', name: 'Jana Malá', at: at(11, 9, 0), totals: null, text: 'se poprvé ukázala' },
+    { personId: 'p', name: 'Petr Novák', at: at(11, 8, 0), totals: totals(1, 0, 0), text: 'naklikal Po 3. 5.' },
+  ]);
+});
+
+test('historyGroups ignores entries without per-pen totals when picking the sum', () => {
+  const day = new Date(2027, 5, 12, 10, 0);
+  const groups = historyGroups([
+    { personId: 'p', name: 'Petr', text: 'si změnil jméno', chips: [], at: day },
+    { personId: 'p', name: 'Petr', text: 'naklikal So 19. 6.', chips: [{ kind: 'love', count: 1 }, { kind: 'ok', count: 0 }, { kind: 'no', count: 0 }], at: day },
+  ]);
+  assert.equal(groups.length, 1);
+  assert.deepEqual(groups[0].totals, [{ kind: 'love', count: 1 }, { kind: 'ok', count: 0 }, { kind: 'no', count: 0 }]);
+  assert.equal(groups[0].text, 'si změnil jméno');
 });

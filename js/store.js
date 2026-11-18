@@ -36,6 +36,7 @@ export const state = {
   overlay: {}, // { iso: value | null } painted but not saved yet
   painting: null, // { value, count } while a drag is in progress
   selected: null, // day index; null = best day
+  chartHover: false, // pointer is over the desktop chart: show its tooltip
   rangeMode: false,
   rangeAnchor: null,
   confirmFill: null, // { kind, month, count } waiting for "Jo, smazat"

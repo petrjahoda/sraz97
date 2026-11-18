@@ -1,7 +1,7 @@
 // #/ main page: F3 on desktop/tablet, F4 on phones (< 720 px).
 import { html } from '../lib/html.js';
 import {
-  votesWithOverlay, dayCounts, smoothScores, wavePaths, topDays, shortNamer,
+  votesWithOverlay, dayCounts, wavePaths, topDays, shortNamer,
   countVoted, defaultMonthIndex,
 } from '../model.js';
 import { DAYS, MONTHS, me, update } from '../store.js';
@@ -24,7 +24,7 @@ function derive(s) {
   // Everyone as they should look right now, including my not-yet-saved strokes.
   const people = s.people.map((p) => (p.id === s.meId ? { ...p, votes: myVotes } : p));
   const counts = dayCounts(DAYS, people.map((p) => p.votes));
-  const wave = wavePaths(smoothScores(counts.map((c) => c.score)));
+  const wave = wavePaths(counts.map((c) => c.score));
   const top = topDays(counts);
   const rank = new Map(top.map((index, i) => [index, i + 1]));
   const isos = DAYS.map((d) => d.iso);

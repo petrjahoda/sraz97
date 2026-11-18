@@ -73,38 +73,49 @@ export function countVoted(votes, isos) {
   return isos.filter((iso) => votes[iso]).length;
 }
 
-// ---- wave (reference algorithm from the design) ----
+// ---- wave ----
 
-const SMOOTH_RADIUS = 6;
-const SMOOTH_WIDTH = 6.5;
 const WAVE_TOP = 10;
 const WAVE_BOTTOM = 96;
 
-// Gaussian-weighted average of the neighbouring ±6 days.
-export function smoothScores(scores) {
-  const n = scores.length;
-  return scores.map((_, a) => {
-    let sum = 0;
-    let weights = 0;
-    for (let j = Math.max(0, a - SMOOTH_RADIUS); j <= Math.min(n - 1, a + SMOOTH_RADIUS); j++) {
-      const w = Math.exp(-((a - j) * (a - j)) / SMOOTH_WIDTH);
-      sum += scores[j] * w;
-      weights += w;
-    }
-    return sum / weights;
+// Steffen (1990) slopes for a curve through evenly spaced points: smooth, but
+// never higher or lower than the neighbouring days, so a peak day stays the
+// highest point and the range edges behave like the middle.
+function steffenSlopes(ys) {
+  const n = ys.length;
+  if (n < 2) return ys.map(() => 0);
+  const d = ys.slice(1).map((y, i) => y - ys[i]); // day-to-day change
+  return ys.map((_, i) => {
+    if (i === 0) return d[0];
+    if (i === n - 1) return d[n - 2];
+    const before = d[i - 1];
+    const after = d[i];
+    if (before * after <= 0) return 0; // a peak, a valley or flat: level curve
+    const size = Math.min(2 * Math.abs(before), 2 * Math.abs(after), (Math.abs(before) + Math.abs(after)) / 2);
+    return Math.sign(before) * size;
   });
 }
 
-// SVG paths in a viewBox of "0 0 <days> 100": day i sits at x = i + 0.5.
-// ys are percentages from the top, used to place the top-3 dots.
-export function wavePaths(smoothed) {
-  const n = smoothed.length;
-  const lo = Math.min(...smoothed);
-  const hi = Math.max(...smoothed);
+// The wave as SVG paths in a viewBox of "0 0 <days> 100": a smooth curve
+// through every day's score, day i at x = i + 0.5. Best score at the top
+// (y 10), worst at the bottom (y 96); flat at the bottom when all are equal.
+// ys are the days' heights in %, used to place the top-3 dots.
+export function wavePaths(scores) {
+  const n = scores.length;
+  const lo = Math.min(...scores);
+  const hi = Math.max(...scores);
   const range = (hi - lo) || 1;
-  const ys = smoothed.map((v) => WAVE_BOTTOM - ((v - lo) / range) * (WAVE_BOTTOM - WAVE_TOP));
-  const line = ys.map((y, i) => `${i ? ' L' : 'M'}${(i + 0.5).toFixed(1)},${y.toFixed(2)}`).join('');
-  const area = `${line} L${n - 0.5},100 L0.5,100 Z`;
+  const ys = scores.map((v) => WAVE_BOTTOM - ((v - lo) / range) * (WAVE_BOTTOM - WAVE_TOP));
+  const slopes = steffenSlopes(ys);
+  const f = (v) => v.toFixed(2);
+  const x = (i) => i + 0.5;
+  let line = `M${f(x(0))},${f(ys[0])}`;
+  for (let i = 0; i < n - 1; i++) {
+    line += ` C${f(x(i) + 1 / 3)},${f(ys[i] + slopes[i] / 3)}`
+      + ` ${f(x(i + 1) - 1 / 3)},${f(ys[i + 1] - slopes[i + 1] / 3)}`
+      + ` ${f(x(i + 1))},${f(ys[i + 1])}`;
+  }
+  const area = `${line} L${f(x(n - 1))},100.00 L${f(x(0))},100.00 Z`;
   return { line, area, ys };
 }
 
@@ -213,4 +224,40 @@ export function defaultMonthIndex(months, days, top) {
     return months.findIndex((m) => m.month === month);
   }
   return Math.floor((months.length - 1) / 2);
+}
+
+// ---- history ----
+
+// A person's totals per pen. Every vote change stores these in its history
+// entry, so the history can show "má naklikáno 18 dní (9× hodí se …)" per day.
+export function voteTotals(votes) {
+  const values = Object.values(votes);
+  return VOTE_KINDS.map((kind) => ({ kind, count: values.filter((v) => v === kind).length }));
+}
+
+function hasTotals(chips) {
+  return chips.length === VOTE_KINDS.length && chips.every((chip) => typeof chip.count === 'number');
+}
+
+function localDayKey(date) {
+  return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+}
+
+// One line per person per calendar day. entries come newest first: the newest
+// entry of a group gives its time and text, the newest entry carrying totals
+// gives the sums (null when that day only had a first visit or a rename).
+export function historyGroups(entries) {
+  const groups = [];
+  const byKey = new Map();
+  for (const entry of entries) {
+    const key = `${entry.personId}|${localDayKey(entry.at)}`;
+    let group = byKey.get(key);
+    if (!group) {
+      group = { personId: entry.personId, name: entry.name, at: entry.at, totals: null, text: entry.text };
+      byKey.set(key, group);
+      groups.push(group);
+    }
+    if (!group.totals && hasTotals(entry.chips)) group.totals = entry.chips;
+  }
+  return groups;
 }

@@ -62,6 +62,15 @@ function tooltipContent(d) {
       </div>`)}`;
 }
 
+// The desktop tooltip shows only while the pointer is over the chart. A finger
+// "leaves" as soon as it lifts, so after a tap on a tablet the tooltip stays.
+function enterChart() {
+  update({ chartHover: true });
+}
+function leaveChart(event) {
+  if (event.pointerType !== 'touch') update({ chartHover: false });
+}
+
 export function chart(s, d) {
   // Beside the selected bar (right of it up to 55 %, else left of it), but
   // clamped so it never sticks out of the chart on narrow screens (iPad).
@@ -70,9 +79,9 @@ export function chart(s, d) {
   const tipStyle = { left: `clamp(0px, ${beside}, calc(100% - ${TIP_WIDTH}px))` };
   return html`
     <div class="chart">
-      <div class="plot">
+      <div class="plot" @pointerenter=${enterChart} @pointerleave=${leaveChart}>
         ${bars(s, d, false)}
-        <div class="tooltip" style=${styleMap(tipStyle)} aria-live="polite">${tooltipContent(d)}</div>
+        <div class="tooltip" style=${styleMap(tipStyle)} ?hidden=${!s.chartHover}>${tooltipContent(d)}</div>
       </div>
       ${monthAxis('month-axis chart-axis')}
     </div>`;

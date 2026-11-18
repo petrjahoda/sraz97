@@ -19,7 +19,8 @@ const db = initializeFirestore(app, {
   localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }),
 });
 
-export const LOG_LIMIT = 30;
+// Enough entries to group into a readable history (one line per person per day).
+export const LOG_LIMIT = 100;
 
 // ---- auth ----
 

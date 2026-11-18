@@ -2,7 +2,7 @@
 // Every gesture becomes one Firestore batch with one history entry.
 import { saveVotes } from './firebase.js';
 import { paintText, fillText } from './cz.js';
-import { resolveClick, votesWithOverlay, fillIndices } from './model.js';
+import { resolveClick, votesWithOverlay, fillIndices, voteTotals } from './model.js';
 import { DAYS, MONTHS, state, update, me, showToast } from './store.js';
 import { SAVE_ERROR } from './views/bits.js';
 
@@ -37,7 +37,8 @@ function commit(indices, value, text) {
 
   // Show it right away; the next people snapshot (latency-compensated) replaces the overlay.
   update({ overlay: { ...state.overlay, ...changes } });
-  const chips = value ? [{ kind: value }] : [];
+  // The history shows each person's totals per day, so store them with the change.
+  const chips = voteTotals(votesWithOverlay(current, changes));
   saveVotes(person, changes, { text, chips }).catch((err) => {
     console.warn('Saving votes failed', err.code || err);
     update({ overlay: {} });
